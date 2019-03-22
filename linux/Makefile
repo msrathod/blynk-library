@@ -61,7 +61,7 @@ CXX_OBJECTS=$(CXX_SOURCES:.cpp=.o)
 C_SOURCES=roof_client.c
 C_OBJECTS=$(C_SOURCES:.c=.o)
 
-EXECUTABLE=blynk_client
+EXECUTABLE=blynkClient
 
 all: $(CXX_SOURCES) $(C_SOURCES) $(EXECUTABLE)
 
