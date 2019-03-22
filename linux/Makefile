@@ -8,6 +8,7 @@
 
 CC ?= gcc
 CXX ?= g++
+CFLAGS += -I ./
 CXXFLAGS += -I ../src/ -I ./ -DLINUX
 LDFLAGS += -lrt -lpthread
 
@@ -50,21 +51,28 @@ ifeq ($(target),raspberry)
 	LDFLAGS += -lwiringPi
 endif
 
-SOURCES=main.cpp \
+CXX_SOURCES=main.cpp \
 	../src/utility/BlynkDebug.cpp \
 	../src/utility/BlynkHandlers.cpp \
 	../src/utility/BlynkTimer.cpp
 
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=blynk
+CXX_OBJECTS=$(CXX_SOURCES:.cpp=.o)
 
-all: $(SOURCES) $(EXECUTABLE)
+C_SOURCES=roof_client.c
+C_OBJECTS=$(C_SOURCES:.c=.o)
+
+EXECUTABLE=blynk_client
+
+all: $(CXX_SOURCES) $(C_SOURCES) $(EXECUTABLE)
 
 clean:
-	-rm $(OBJECTS) $(EXECUTABLE)
+	-rm -f $(CXX_OBJECTS) $(C_OBJECTS) $(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJECTS) 
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
+$(EXECUTABLE): $(CXX_OBJECTS) $(C_OBJECTS)
+	$(CXX) $(CXX_OBJECTS) $(C_OBJECTS) $(LDFLAGS) -o $@
 
-.cpp.o:
-	$(CXX) $(CXXFLAGS) $< -o $@
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@

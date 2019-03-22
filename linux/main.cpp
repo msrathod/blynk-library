@@ -1,61 +1,68 @@
-/**
- * @file       main.cpp
- * @author     Volodymyr Shymanskyy
- * @license    This project is released under the MIT License (MIT)
- * @copyright  Copyright (c) 2015 Volodymyr Shymanskyy
- * @date       Mar 2015
- * @brief
- */
-
-//#define BLYNK_DEBUG
+/* Comment this out to disable prints and save space */
 #define BLYNK_PRINT stdout
+
 #ifdef RASPBERRY
-  #include <BlynkApiWiringPi.h>
+ #include <BlynkApiWiringPi.h>
 #else
-  #include <BlynkApiLinux.h>
+ #include <BlynkApiLinux.h>
 #endif
 #include <BlynkSocket.h>
 #include <BlynkOptionsParser.h>
 
 static BlynkTransportSocket _blynkTransport;
 BlynkSocket Blynk(_blynkTransport);
-
-static const char *auth, *serv;
-static uint16_t port;
-
 #include <BlynkWidgets.h>
 
-BlynkTimer tmr;
+#include "roof_client.h"
+#include "roof_cmd.h"
 
+// This function will be called every time Slider Widget
+// in Blynk app writes values to the Virtual Pin V1
 BLYNK_WRITE(V1)
 {
-    printf("Got a value: %s\n", param[0].asStr());
+  int pinV1 = param.asInt(); // assigning incoming value from pin V1 to a variable
+  // process received value
+  if(pinV1 > 0){
+      client_push_cmd(CMD_OPEN);
+  }
+}
+BLYNK_WRITE(V2)
+{
+    int pinV2 = param.asInt();
+    if(pinV2 > 0){
+        client_push_cmd(CMD_CLOSE);
+    }
+}
+BLYNK_WRITE(V3)
+{
+    int pinV3 = param.asInt();
+    if(pinV3 > 0){
+        client_push_cmd(CMD_STOP);
+    }
 }
 
 void setup()
 {
-    Blynk.begin(auth, serv, port);
-    tmr.setInterval(1000, [](){
-      Blynk.virtualWrite(V0, BlynkMillis()/1000);
-    });
+  client_setup();
 }
 
 void loop()
 {
-    Blynk.run();
-    tmr.run();
+  Blynk.run();
 }
-
 
 int main(int argc, char* argv[])
 {
-    parse_options(argc, argv, auth, serv, port);
+  const char *auth, *serv;
+  uint16_t port;
+  parse_options(argc, argv, auth, serv, port);
+  Blynk.begin(auth, serv, port);
 
-    setup();
-    while(true) {
-        loop();
-    }
+  setup();
+  while(true) 
+  {
+    loop();
+  }
 
-    return 0;
+  return 0;
 }
-
