@@ -64,7 +64,7 @@ Social: [Webpage](https://blynk.io) / [Facebook](http://www.fb.com/blynkapp) / [
 * [Node.js, Espruino, Browsers](https://github.com/vshymanskyy/blynk-library-js)
 * [Lua, OpenWrt, NodeMCU](https://github.com/vshymanskyy/blynk-library-lua)
 * [Python, MicroPython](https://github.com/vshymanskyy/blynk-library-python)
-* [OpenWrt packages](https://github.com/vshymanskyy/blynk-library-openwrt)
+* [OpenWrt packages](https://github.com/msrathod/blynk-library-openwrt)
 * [MBED](https://developer.mbed.org/users/vshymanskyy/code/Blynk/)
 * [Node-RED](https://www.npmjs.com/package/node-red-contrib-blynk-ws)
 * [LabVIEW](https://github.com/juncaofish/NI-LabVIEWInterfaceforBlynk)
