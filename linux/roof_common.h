@@ -31,7 +31,7 @@ extern "C" {
 
 // Shared memory data structures
 struct shared_memory {
-    char cmd_buf[MAX_CMDS];
+    unsigned char cmd_buf[MAX_CMDS];
     int cmd_buf_idx;
     int cmd_run_idx;
 };

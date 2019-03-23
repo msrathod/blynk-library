@@ -18,7 +18,7 @@ int fd_shm;
 
 void error (char *msg);
 void client_setup();
-void client_push_cmd(char ucmd);
+void client_push_cmd(unsigned char ucmd);
 
 
 #ifdef __cplusplus

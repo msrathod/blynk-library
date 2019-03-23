@@ -30,7 +30,7 @@ void client_setup()
 }
 
 //  Push the command to cmd spooler
-void client_push_cmd(char ucmd)
+void client_push_cmd(unsigned char ucmd)
 {
     // get a cmd: P (cmd_count_sem);
     if (sem_wait (cmd_count_sem) == -1)
